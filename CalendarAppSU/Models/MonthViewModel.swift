@@ -36,6 +36,16 @@ class MonthViewModel: ObservableObject, MonthViewing {
     @Published var year: Int = 0
     @Published var dayViewModels: [WeekViewModel] = []
     
+    private func update() {
+        numberOfDaysInMonth = monthCalculator.numberOfDaysInMonth
+        current = monthCalculator.mdyValues.0
+        year = monthCalculator.mdyValues.2
+        startDay = monthCalculator.startDayOfWeek
+        yearMonthTitle = "\(year)  " + monthName
+        dayViewModels = []
+        generateDayModels()
+    }
+
     private lazy var dateFormatter = DateFormatter()
     private var service: HolidayWebService?
     private var monthCalculator: MonthCalculating
@@ -50,11 +60,11 @@ class MonthViewModel: ObservableObject, MonthViewing {
         self.monthCalculator = calc ?? MonthCalculation()
         self.service = service ?? HolidayService()
         self.cancelling = cancelling
-        update()
         startMonth()
     }
     
     func startMonth() {
+        update()
         navigation()
     }
     
@@ -69,17 +79,6 @@ class MonthViewModel: ObservableObject, MonthViewing {
         update()
         navigation()
     }
-    
-    func update() {
-        numberOfDaysInMonth = monthCalculator.numberOfDaysInMonth
-        current = monthCalculator.mdyValues.0
-        year = monthCalculator.mdyValues.2
-        startDay = monthCalculator.startDayOfWeek
-        yearMonthTitle = "\(year)  " + monthName
-        dayViewModels = []
-        generateDayModels()
-    }
-
     
     private func navigation() {
         newMonthCleanup()
@@ -106,6 +105,7 @@ private extension MonthViewModel {
         guard let service = service else { return }
         
         (1...numberOfDaysInMonth).forEach {
+
             service.fetchHolidays(year: year, month: current, day: $0) { [weak self] in
                 guard let self = self else { return }
                 switch $0 {
@@ -126,9 +126,7 @@ private extension MonthViewModel {
         print(#function)
         
         (1...numberOfDaysInMonth).forEach {
-
-            //let service: HolidayWebService = useRetry ? HolidayRetryService() : HolidayService()
-            let service: HolidayWebService = HolidayService()
+            let service: HolidayWebService = useRetry ? HolidayRetryService() : HolidayService()
 
             service.fetchHolidays(year: year, month: current, day: $0) { [weak self] in
                 guard let self = self else { return }
@@ -137,7 +135,6 @@ private extension MonthViewModel {
                     if !holidays.isEmpty {
                         self.holidays = self.holidays + holidays
                         self.helloHolidays(holidays)
-//                        self.onHolidays(holidays)
                     }
                 case .failure(let error):
                     print(error)
@@ -158,7 +155,6 @@ private extension MonthViewModel {
 }
 
 private extension MonthViewModel {
-    
 
     func helloHolidays(_ holidays: Holidays) {
         for holiday in holidays {
