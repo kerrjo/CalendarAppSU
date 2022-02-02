@@ -30,19 +30,18 @@ struct WeekView: View {
 }
 
 struct WeekView_Previews: PreviewProvider {
-    @StateObject var viewModel = WeekViewModel([
-        DayViewModel(1),
-        DayViewModel(2),
-        DayViewModel(3),
-        DayViewModel(4),
-        DayViewModel(5),
-        DayViewModel(6),
-        DayViewModel(7),
-    ])
-    
     static var previews: some View {
         Group {
-            WeekView(viewModel: WeekViewModel())
+            WeekView(viewModel: WeekViewModel([
+                DayViewModel(1),
+                DayViewModel(2),
+                DayViewModel(3),
+                DayViewModel(4),
+                DayViewModel(5),
+                DayViewModel(6),
+                DayViewModel(7),
+            ])
+            ).previewLayout(.sizeThatFits)
         }
     }
 }

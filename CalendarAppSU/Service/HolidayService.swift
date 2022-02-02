@@ -32,7 +32,7 @@ class HolidayService: HolidayWebService {
 
         print(url)
         
-        // MOCK for testing
+        // MOCK for testing 
         
         let holidays = [
             HolidayElement(name: "hello", nameLocal: "", language: "", holidayDescription: "", country: "", location: "", type: "", date: "", dateYear: "", dateMonth: "", dateDay: "01", weekDay: ""),

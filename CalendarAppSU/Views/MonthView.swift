@@ -24,6 +24,9 @@ struct MonthView: View {
 
 struct MonthView_Previews: PreviewProvider {
     static var previews: some View {
-        MonthView(viewModel: MonthViewModel())
+        Group {
+            MonthView(viewModel: MonthViewModel())
+                .previewLayout(.sizeThatFits)
+        }
     }
 }
