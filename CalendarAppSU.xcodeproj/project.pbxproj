@@ -14,6 +14,16 @@
 		558F298027AA3DC5004FA152 /* CalendarAppSUTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F297F27AA3DC5004FA152 /* CalendarAppSUTests.swift */; };
 		558F298A27AA3DC5004FA152 /* CalendarAppSUUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F298927AA3DC5004FA152 /* CalendarAppSUUITests.swift */; };
 		558F298C27AA3DC5004FA152 /* CalendarAppSUUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F298B27AA3DC5004FA152 /* CalendarAppSUUITestsLaunchTests.swift */; };
+		558F299B27AA433B004FA152 /* MonthCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F299A27AA433B004FA152 /* MonthCalculator.swift */; };
+		558F299D27AA439A004FA152 /* MonthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F299C27AA439A004FA152 /* MonthViewModel.swift */; };
+		558F299F27AA43D9004FA152 /* Holiday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F299E27AA43D9004FA152 /* Holiday.swift */; };
+		558F29A127AA4402004FA152 /* HolidayWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F29A027AA4402004FA152 /* HolidayWebService.swift */; };
+		558F29A327AA4456004FA152 /* HolidayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F29A227AA4456004FA152 /* HolidayService.swift */; };
+		558F29A527AA47DD004FA152 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F29A427AA47DD004FA152 /* MonthView.swift */; };
+		558F29A727AA48FF004FA152 /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F29A627AA48FF004FA152 /* DayView.swift */; };
+		558F29A927AABD00004FA152 /* DayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F29A827AABD00004FA152 /* DayViewModel.swift */; };
+		558F29AE27AAC656004FA152 /* MonthCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F29AD27AAC656004FA152 /* MonthCalculatorTests.swift */; };
+		558F29B027AAC736004FA152 /* MonthViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F29AF27AAC736004FA152 /* MonthViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +54,16 @@
 		558F298527AA3DC5004FA152 /* CalendarAppSUUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalendarAppSUUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		558F298927AA3DC5004FA152 /* CalendarAppSUUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarAppSUUITests.swift; sourceTree = "<group>"; };
 		558F298B27AA3DC5004FA152 /* CalendarAppSUUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarAppSUUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		558F299A27AA433B004FA152 /* MonthCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCalculator.swift; sourceTree = "<group>"; };
+		558F299C27AA439A004FA152 /* MonthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthViewModel.swift; sourceTree = "<group>"; };
+		558F299E27AA43D9004FA152 /* Holiday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Holiday.swift; sourceTree = "<group>"; };
+		558F29A027AA4402004FA152 /* HolidayWebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayWebService.swift; sourceTree = "<group>"; };
+		558F29A227AA4456004FA152 /* HolidayService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayService.swift; sourceTree = "<group>"; };
+		558F29A427AA47DD004FA152 /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
+		558F29A627AA48FF004FA152 /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
+		558F29A827AABD00004FA152 /* DayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewModel.swift; sourceTree = "<group>"; };
+		558F29AD27AAC656004FA152 /* MonthCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCalculatorTests.swift; sourceTree = "<group>"; };
+		558F29AF27AAC736004FA152 /* MonthViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,9 +115,11 @@
 			isa = PBXGroup;
 			children = (
 				558F296E27AA3DC0004FA152 /* CalendarAppSUApp.swift */,
-				558F297027AA3DC0004FA152 /* ContentView.swift */,
 				558F297227AA3DC4004FA152 /* Assets.xcassets */,
 				558F297427AA3DC4004FA152 /* Preview Content */,
+				558F29AC27AABD80004FA152 /* Views */,
+				558F29AB27AABD56004FA152 /* Models */,
+				558F29AA27AABD35004FA152 /* Service */,
 			);
 			path = CalendarAppSU;
 			sourceTree = "<group>";
@@ -114,6 +136,8 @@
 			isa = PBXGroup;
 			children = (
 				558F297F27AA3DC5004FA152 /* CalendarAppSUTests.swift */,
+				558F29AD27AAC656004FA152 /* MonthCalculatorTests.swift */,
+				558F29AF27AAC736004FA152 /* MonthViewModelTests.swift */,
 			);
 			path = CalendarAppSUTests;
 			sourceTree = "<group>";
@@ -125,6 +149,36 @@
 				558F298B27AA3DC5004FA152 /* CalendarAppSUUITestsLaunchTests.swift */,
 			);
 			path = CalendarAppSUUITests;
+			sourceTree = "<group>";
+		};
+		558F29AA27AABD35004FA152 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				558F29A027AA4402004FA152 /* HolidayWebService.swift */,
+				558F29A227AA4456004FA152 /* HolidayService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		558F29AB27AABD56004FA152 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				558F299A27AA433B004FA152 /* MonthCalculator.swift */,
+				558F299C27AA439A004FA152 /* MonthViewModel.swift */,
+				558F299E27AA43D9004FA152 /* Holiday.swift */,
+				558F29A827AABD00004FA152 /* DayViewModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		558F29AC27AABD80004FA152 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				558F297027AA3DC0004FA152 /* ContentView.swift */,
+				558F29A427AA47DD004FA152 /* MonthView.swift */,
+				558F29A627AA48FF004FA152 /* DayView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,7 +312,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				558F297127AA3DC0004FA152 /* ContentView.swift in Sources */,
+				558F29A127AA4402004FA152 /* HolidayWebService.swift in Sources */,
+				558F299F27AA43D9004FA152 /* Holiday.swift in Sources */,
+				558F29A527AA47DD004FA152 /* MonthView.swift in Sources */,
+				558F29A727AA48FF004FA152 /* DayView.swift in Sources */,
+				558F299B27AA433B004FA152 /* MonthCalculator.swift in Sources */,
+				558F299D27AA439A004FA152 /* MonthViewModel.swift in Sources */,
+				558F29A927AABD00004FA152 /* DayViewModel.swift in Sources */,
 				558F296F27AA3DC0004FA152 /* CalendarAppSUApp.swift in Sources */,
+				558F29A327AA4456004FA152 /* HolidayService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,7 +328,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				558F29AE27AAC656004FA152 /* MonthCalculatorTests.swift in Sources */,
 				558F298027AA3DC5004FA152 /* CalendarAppSUTests.swift in Sources */,
+				558F29B027AAC736004FA152 /* MonthViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
