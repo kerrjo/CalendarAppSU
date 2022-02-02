@@ -10,28 +10,41 @@ import Foundation
 protocol MonthNavigating {
     func next()
     func previous()
+    /// currently set month
     func startMonth()
 }
 
 protocol MonthViewing: AnyObject, MonthNavigating {
     var current: Int { get }
     var year: Int { get }
-    var startDay: Int { get } // day of week start month 0
+    var startDay: Int { get } // day of week start in month 1 - 7
     var numberOfDaysInMonth: Int { get }
     var yearMonthTitle: String { get }
 }
 
-//var onHolidays: ([HolidayElement])  -> () { get set }
-//var monthName: String { get }
-//var onNewMonth: () -> () { get set }
-
+/**
+ Model a calendar month, that allows changing to next and previous month
+ retieves holidays from service
+ 
+ */
 class MonthViewModel: ObservableObject, MonthViewing {
+    
+    @Published var numberOfDaysInMonth: Int = 0
+    @Published var yearMonthTitle: String = ""
+    @Published var startDay: Int = 0
+    @Published var current: Int = 0
+    @Published var year: Int = 0
+    @Published var dayViewModels: [WeekViewModel] = []
     
     private lazy var dateFormatter = DateFormatter()
     private var service: HolidayWebService?
     private var monthCalculator: MonthCalculating
     private var cancelling: Bool = false
     private var useRetry: Bool = false
+    private var monthName: String {
+        dateFormatter.dateFormat = "LLLL"
+        return dateFormatter.string(from: monthCalculator.date)
+    }
 
     init(with calc: MonthCalculating? = nil, service: HolidayWebService? = nil, cancelling: Bool = false) {
         self.monthCalculator = calc ?? MonthCalculation()
@@ -41,24 +54,6 @@ class MonthViewModel: ObservableObject, MonthViewing {
         startMonth()
     }
     
-    
-    private var monthName: String {
-        dateFormatter.dateFormat = "LLLL"
-        return dateFormatter.string(from: monthCalculator.date)
-    }
-
-    @Published var numberOfDaysInMonth: Int = 0
-    @Published var yearMonthTitle: String = ""
-    @Published var startDay: Int = 0
-    @Published var current: Int = 0
-    @Published var year: Int = 0
-
-//    var onNewMonth: () -> () = { }
-//    var onHolidays: ([HolidayElement])  -> () = { _ in }
-
-//    @Published var dayViewModels: [[DayViewModel]] = [[]]
-    @Published var dayViewModels: [WeekViewModel] = []
-
     func startMonth() {
         navigation()
     }
@@ -180,127 +175,60 @@ private extension MonthViewModel {
         }
     }
 
-//                for day in days {
-//                    DispatchQueue.main.async {
-//                        day.holidayText = holiday.name
-//                    }
-//                }
-//
-//            }
-//
-//            let days = dayViewModels.flatMap({ $0 }).filter {
-//                Int($0.dayNumber) == Int(holiday.dateDay)
-//            }
-//            for day in days {
-//                DispatchQueue.main.async {
-//                    day.holidayText = holiday.name
-//                }
-//            }
-//        }
-//    }
-    
     func generateDayModels() {
         var day = 0
         let maxDays = numberOfDaysInMonth
-        
         let week1 = WeekViewModel()
-        (1...7).forEach {
-            day = $0 == startDay ? (day + 1) : (day + 0)
-            /// skipping iteration until startday reched
-            
-            week1.days.append(DayViewModel(day))
-            
-            /// increment only if greater than 0
-            day = (day > 0) ? (day + 1) : (day + 0)
-        }
-        dayViewModels.append(week1)
-
         let week2 = WeekViewModel()
+        let week3 = WeekViewModel()
+        let week4 = WeekViewModel()
+        let week5 = WeekViewModel()
+        let week6 = WeekViewModel()
+
+        // Leading week
+
+        (1...7).forEach {
+            day = $0 == startDay ? (day + 1) : (day + 0) // skipping iteration until startday reched
+            week1.days.append(DayViewModel(day))
+            day = (day > 0) ? (day + 1) : (day + 0) // increment only if greater than 0
+        }
+
+        // Middle weeks
+        
         (1...7).forEach { _ in
             week2.days.append(DayViewModel(day))
             day = day + 1
         }
-        dayViewModels.append(week2)
 
-        let week3 = WeekViewModel()
         (1...7).forEach { _ in
             week3.days.append(DayViewModel(day))
             day = day + 1
         }
-        dayViewModels.append(week3)
 
-
-        let week4 = WeekViewModel()
         (1...7).forEach { _ in
             week4.days.append(DayViewModel(day))
             day = day + 1
         }
-        dayViewModels.append(week4)
 
-        let week5 = WeekViewModel()
+        // Trailing weeks
+
         (1...7).forEach { _ in
-            // use day counter until maxdays then use 0
-            let dayValue = day > maxDays ? 0 : day
+            let dayValue = day > maxDays ? 0 : day // use day counter until maxdays then use 0
             week5.days.append(DayViewModel(dayValue))
             day = day + 1
         }
-        dayViewModels.append(week5)
 
-        let week6 = WeekViewModel()
         (1...7).forEach { _ in
-            // use day counter until maxdays then use 0
-            let dayValue = day > maxDays ? 0 : day
+            let dayValue = day > maxDays ? 0 : day // use day counter until maxdays then use 0
             week6.days.append(DayViewModel(dayValue))
             day = day + 1
         }
+        
+        dayViewModels.append(week1)
+        dayViewModels.append(week2)
+        dayViewModels.append(week3)
+        dayViewModels.append(week4)
+        dayViewModels.append(week5)
         dayViewModels.append(week6)
     }
-
 }
-//    func generateDayModels1() {
-//        var day = 0
-//        let maxDays = numberOfDaysInMonth
-//        dayViewModels.append([])
-//        (1...7).forEach {
-//            day = $0 == startDay ? (day + 1) : (day + 0)
-//            /// skipping iteration until startday reched
-//            dayViewModels[0].append(DayViewModel(day))
-//            /// increment only if greater than 0
-//            day = (day > 0) ? (day + 1) : (day + 0)
-//        }
-//
-//        dayViewModels.append([])
-//        (1...7).forEach { _ in
-//            dayViewModels[1].append(DayViewModel(day))
-//            day = day + 1
-//        }
-//
-//        dayViewModels.append([])
-//        (1...7).forEach { _ in
-//            dayViewModels[2].append(DayViewModel(day))
-//            day = day + 1
-//        }
-//
-//        dayViewModels.append([])
-//        (1...7).forEach { _ in
-//            dayViewModels[3].append(DayViewModel(day))
-//            day = day + 1
-//        }
-//
-//        dayViewModels.append([])
-//        (1...7).forEach { _ in
-//            // use day counter until maxdays then use 0
-//            let dayValue = day > maxDays ? 0 : day
-//            dayViewModels[4].append(DayViewModel(dayValue))
-//            day = day + 1
-//        }
-//
-//        dayViewModels.append([])
-//        (1...7).forEach { _ in
-//            // use day counter until maxdays then use 0
-//            let dayValue = day > maxDays ? 0 : day
-//            dayViewModels[5].append(DayViewModel(dayValue))
-//            day = day + 1
-//        }
-//    }
-//}

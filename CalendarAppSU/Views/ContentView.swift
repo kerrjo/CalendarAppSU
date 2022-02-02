@@ -10,24 +10,16 @@ import SwiftUI
 struct DayNamesHeaderView: View {
     var body: some View {
         HStack {
-            Text("Su")
-                .frame(maxWidth: .infinity)
-            Text("Mo")
-                .frame(maxWidth: .infinity)
-            Text("Tu")
-                .frame(maxWidth: .infinity)
-            Text("We")
-                .frame(maxWidth: .infinity)
-            Text("Th")
-                .frame(maxWidth: .infinity)
-            Text("Fr")
-                .frame(maxWidth: .infinity)
-            Text("Sa")
-                .frame(maxWidth: .infinity)
+            Text("Su").frame(maxWidth: .infinity)
+            Text("Mo").frame(maxWidth: .infinity)
+            Text("Tu").frame(maxWidth: .infinity)
+            Text("We").frame(maxWidth: .infinity)
+            Text("Th").frame(maxWidth: .infinity)
+            Text("Fr").frame(maxWidth: .infinity)
+            Text("Sa").frame(maxWidth: .infinity)
         }
     }
 }
-
 
 struct ContentMonthView: View {
     @ObservedObject var viewModel: MonthViewModel
@@ -36,10 +28,11 @@ struct ContentMonthView: View {
             Text(viewModel.yearMonthTitle)
                 .fontWeight(.semibold)
                 .font(.headline)
+            
             Spacer(minLength: 20)
+            
             DayNamesHeaderView()
-            MonthView(viewModel: viewModel)
-                .frame(maxWidth: .infinity)
+            MonthView(viewModel: viewModel).frame(maxWidth: .infinity)
         }
     }
 }
@@ -51,34 +44,32 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Spacer(minLength: 32)
-
+            
             Button(action: viewModel.previous) {
                 HStack {
-                       Image(systemName: "arrowtriangle.up.fill")
-                           .font(.body)
-                       Text("Previous")
+                    Image(systemName: "arrowtriangle.up.fill").font(.body)
+                    Text("Previous")
                         .fontWeight(.semibold)
                         .font(.body)
-                   }
-                   .padding()
+                }
+                .padding()
             }.buttonStyle(.borderless)
-
+            
             Spacer(minLength: 20)
+            
             ContentMonthView(viewModel: viewModel)
-
+            
             Button(action: viewModel.next) {
                 HStack {
-                       Image(systemName: "arrowtriangle.down.fill")
-                           .font(.body)
-                       Text("Next")
-                           .fontWeight(.semibold)
-                           .font(.body)
-                   }
-                   .padding()
+                    Image(systemName: "arrowtriangle.down.fill").font(.body)
+                    Text("Next")
+                        .fontWeight(.semibold)
+                        .font(.body)
+                }
+                .padding()
             }.buttonStyle(.borderless)
             
             Spacer(minLength: 32)
-
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

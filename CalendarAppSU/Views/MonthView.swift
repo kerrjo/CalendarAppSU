@@ -7,26 +7,9 @@
 
 import SwiftUI
 
-class WeekViewModel: ObservableObject {
-    @Published var days: [DayViewModel] = []
-}
-
-struct WeekView: View {
-    @ObservedObject var viewModel: WeekViewModel
-    var body: some View {
-        HStack {
-            ForEach(viewModel.days, id: \.id) { item in
-                DayView(viewModel: item)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .border(Color.red)
-            }
-        }
-    }
-}
-
-
 struct MonthView: View {
     @ObservedObject var viewModel: MonthViewModel
+    
     var body: some View {
         VStack {
             WeekView(viewModel: viewModel.dayViewModels[0])
@@ -38,7 +21,6 @@ struct MonthView: View {
         }
     }
 }
-
 
 struct MonthView_Previews: PreviewProvider {
     static var previews: some View {

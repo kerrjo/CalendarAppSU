@@ -17,8 +17,8 @@ class HolidayService: HolidayWebService {
 
     func cancel() {
         guard let dataTask = dataTask else { return }
-        print(#function, "cancelled")
         dataTask.cancel()
+        print(#function, "cancelled")
     }
     
     func fetchHolidays(year: Int, month: Int, day: Int, completion: @escaping (Result<Holidays, FetchError>) -> ()) {
@@ -30,6 +30,9 @@ class HolidayService: HolidayWebService {
         if day < 2 { /* proceed */ } else { return completion(.failure(.notImplemented)) }
         //if day < 2 { /* proceed */ } else { return completion(.failure(.notImplemented)) }
 
+        print(url)
+        
+        // MOCK for testing
         
         let holidays = [
             HolidayElement(name: "hello", nameLocal: "", language: "", holidayDescription: "", country: "", location: "", type: "", date: "", dateYear: "", dateMonth: "", dateDay: "01", weekDay: ""),
@@ -37,6 +40,11 @@ class HolidayService: HolidayWebService {
         ]
         completion(.success(holidays))
         return
+
+        // fetch(url, completion: completion)
+    }
+    
+    private func fetch(_ url: URL, completion: @escaping (Result<Holidays, FetchError>) -> ()) {
         
         dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error { return completion(.failure(.error(error))) }
@@ -44,23 +52,17 @@ class HolidayService: HolidayWebService {
             guard let httpResponse = response as? HTTPURLResponse else {
                 return completion(.failure(.badresponse))
             }
-            
             guard (200...299).contains(httpResponse.statusCode) else {
                 print("error statuscode", httpResponse.statusCode)
                 return completion(.failure(.statusCode))
             }
-            
-            guard let jsonData = data else {
-                return completion(.failure(.badresponseData))
-            }
-            
-            guard let results = try? JSONDecoder().decode(Holidays.self, from: jsonData) else {
-                return completion(.failure(.parse))
-            }
+            guard let jsonData = data,
+                  let results = try? JSONDecoder().decode(Holidays.self, from: jsonData) else {
+                      return completion(.failure(.parse))
+                  }
             
             completion(.success(results))
         }
-        
         dataTask?.resume()
     }
 }
