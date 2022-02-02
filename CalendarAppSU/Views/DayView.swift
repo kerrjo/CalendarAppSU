@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DayView: View {
     @ObservedObject var viewModel: DayViewModel
+    
     var body: some View {
         VStack {
             Text(viewModel.dayNumber)
@@ -19,7 +20,7 @@ struct DayView: View {
 
 struct DayView_Previews: PreviewProvider {
     static var previews: some View {
-        DayView(viewModel: DayViewModel(5))
+        DayView(viewModel: DayViewModel(5, holiday: "test"))
             .previewLayout(.sizeThatFits)
     }
 }

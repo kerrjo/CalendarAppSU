@@ -14,5 +14,6 @@ class DayViewModel: ObservableObject, Identifiable {
 
     init(_ day: Int = 0, holiday: String = "") {
         dayNumber = day > 0 ? "\(day)" : ""
+        holidayText = holiday
     }
 }
