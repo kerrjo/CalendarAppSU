@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct CalendarView: View {
     @StateObject var viewModel = MonthViewModel()
     
     var body: some View {
@@ -26,7 +26,7 @@ struct ContentView: View {
             
             Spacer(minLength: 20)
             
-            ContentMonthView(viewModel: viewModel)
+            CalendarMonthView(viewModel: viewModel)
             
             Button(action: viewModel.next) {
                 HStack {
@@ -58,7 +58,7 @@ struct DayNamesHeaderView: View {
     }
 }
 
-struct ContentMonthView: View {
+struct CalendarMonthView: View {
     @ObservedObject var viewModel: MonthViewModel
     var body: some View {
         VStack {
@@ -75,10 +75,10 @@ struct ContentMonthView: View {
 }
 
 
-struct ContentView_Previews: PreviewProvider {
+struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContentView()
+            CalendarView()
                 .previewLayout(.sizeThatFits)
         }
     }

@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55247F7327AB689900B2C047 /* WeekViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55247F7227AB689900B2C047 /* WeekViewModel.swift */; };
 		558F296F27AA3DC0004FA152 /* CalendarAppSUApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F296E27AA3DC0004FA152 /* CalendarAppSUApp.swift */; };
-		558F297127AA3DC0004FA152 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F297027AA3DC0004FA152 /* ContentView.swift */; };
+		558F297127AA3DC0004FA152 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F297027AA3DC0004FA152 /* CalendarView.swift */; };
 		558F297327AA3DC4004FA152 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 558F297227AA3DC4004FA152 /* Assets.xcassets */; };
 		558F297627AA3DC4004FA152 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 558F297527AA3DC4004FA152 /* Preview Assets.xcassets */; };
 		558F298027AA3DC5004FA152 /* CalendarAppSUTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558F297F27AA3DC5004FA152 /* CalendarAppSUTests.swift */; };
@@ -46,9 +47,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		55247F7227AB689900B2C047 /* WeekViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekViewModel.swift; sourceTree = "<group>"; };
 		558F296B27AA3DC0004FA152 /* CalendarAppSU.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalendarAppSU.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		558F296E27AA3DC0004FA152 /* CalendarAppSUApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarAppSUApp.swift; sourceTree = "<group>"; };
-		558F297027AA3DC0004FA152 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		558F297027AA3DC0004FA152 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		558F297227AA3DC4004FA152 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		558F297527AA3DC4004FA152 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		558F297B27AA3DC5004FA152 /* CalendarAppSUTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalendarAppSUTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,9 +170,10 @@
 		558F29AB27AABD56004FA152 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				558F299E27AA43D9004FA152 /* Holiday.swift */,
 				558F299A27AA433B004FA152 /* MonthCalculator.swift */,
 				558F299C27AA439A004FA152 /* MonthViewModel.swift */,
-				558F299E27AA43D9004FA152 /* Holiday.swift */,
+				55247F7227AB689900B2C047 /* WeekViewModel.swift */,
 				558F29A827AABD00004FA152 /* DayViewModel.swift */,
 			);
 			path = Models;
@@ -179,10 +182,10 @@
 		558F29AC27AABD80004FA152 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				558F297027AA3DC0004FA152 /* ContentView.swift */,
+				558F297027AA3DC0004FA152 /* CalendarView.swift */,
 				558F29A427AA47DD004FA152 /* MonthView.swift */,
-				558F29A627AA48FF004FA152 /* DayView.swift */,
 				558F29B327AB0CEF004FA152 /* WeekView.swift */,
+				558F29A627AA48FF004FA152 /* DayView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -318,12 +321,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				558F29B427AB0CEF004FA152 /* WeekView.swift in Sources */,
-				558F297127AA3DC0004FA152 /* ContentView.swift in Sources */,
+				558F297127AA3DC0004FA152 /* CalendarView.swift in Sources */,
 				558F29A127AA4402004FA152 /* HolidayWebService.swift in Sources */,
 				558F299F27AA43D9004FA152 /* Holiday.swift in Sources */,
 				558F29A527AA47DD004FA152 /* MonthView.swift in Sources */,
 				558F29A727AA48FF004FA152 /* DayView.swift in Sources */,
 				558F299B27AA433B004FA152 /* MonthCalculator.swift in Sources */,
+				55247F7327AB689900B2C047 /* WeekViewModel.swift in Sources */,
 				558F29B227AAEBE8004FA152 /* HolidayRetryService.swift in Sources */,
 				558F299D27AA439A004FA152 /* MonthViewModel.swift in Sources */,
 				558F29A927AABD00004FA152 /* DayViewModel.swift in Sources */,

@@ -10,11 +10,20 @@ import SwiftUI
 struct DayView: View {
     @ObservedObject var viewModel: DayViewModel
     
+    var tap: some Gesture {
+        TapGesture(count: 1)
+            .onEnded { _ in
+                print(#function,viewModel.dayNumber)
+                viewModel.didSelect()
+            }
+    }
+    
     var body: some View {
         VStack {
             Text(viewModel.dayNumber)
             Text(viewModel.holidayText)
         }
+        .gesture(tap)
     }
 }
 

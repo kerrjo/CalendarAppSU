@@ -12,12 +12,55 @@ struct MonthView: View {
     
     var body: some View {
         VStack {
-            WeekView(viewModel: viewModel.dayViewModels[0])
-            WeekView(viewModel: viewModel.dayViewModels[1])
-            WeekView(viewModel: viewModel.dayViewModels[2])
-            WeekView(viewModel: viewModel.dayViewModels[3])
-            WeekView(viewModel: viewModel.dayViewModels[4])
-            WeekView(viewModel: viewModel.dayViewModels[5])
+            VStack {
+                WeekView(viewModel: viewModel.dayViewModels[0])
+                if viewModel.selectedDayInWeek == 0 {
+                    HStack {
+                        Text(viewModel.selectedDay)
+                        Spacer()
+                        Text(viewModel.selectedHoliday)
+                    }
+                }
+            }
+            VStack {
+                WeekView(viewModel: viewModel.dayViewModels[1])
+                if viewModel.selectedDayInWeek == 1 {
+                    HStack {
+                        Text(viewModel.selectedDay)
+                        Spacer()
+                        Text(viewModel.selectedHoliday)
+                    }
+                }
+            }
+            VStack {
+                WeekView(viewModel: viewModel.dayViewModels[2])
+                if viewModel.selectedDayInWeek == 2 {
+                    HStack {
+                        Text(viewModel.selectedDay)
+                        Spacer()
+                        Text(viewModel.selectedHoliday)
+                    }
+                }
+            }
+            VStack {
+                WeekView(viewModel: viewModel.dayViewModels[3])
+                if viewModel.selectedDayInWeek == 3 {
+                    Text("Selected week")
+                }
+            }
+            VStack {
+                WeekView(viewModel: viewModel.dayViewModels[4])
+                if viewModel.selectedDayInWeek == 4 {
+                    Text("Selected week")
+                }
+            }
+            VStack {
+                WeekView(viewModel: viewModel.dayViewModels[5])
+                if viewModel.selectedDayInWeek == 5 {
+                    Text("Selected week")
+                }
+            }
+            
         }
     }
 }

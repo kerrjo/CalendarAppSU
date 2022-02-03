@@ -9,9 +9,15 @@ import Foundation
 
 class DayViewModel: ObservableObject, Identifiable {
     var id: UUID = UUID()
-    var dayNumber: String = "A"
+    var dayNumber: String = ""
     @Published var holidayText: String = ""
-
+    @Published var daySelected: String = ""
+    
+    func didSelect() {
+        print(#function, dayNumber)
+        daySelected = dayNumber
+    }
+    
     init(_ day: Int = 0, holiday: String = "") {
         dayNumber = day > 0 ? "\(day)" : ""
         holidayText = holiday
