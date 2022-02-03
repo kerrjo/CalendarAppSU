@@ -17,7 +17,6 @@ struct MonthView: View {
                 if viewModel.selectedDayInWeek == 0 {
                     HStack {
                         Text(viewModel.selectedDay)
-                        Spacer()
                         Text(viewModel.selectedHoliday)
                     }
                 }
@@ -27,7 +26,6 @@ struct MonthView: View {
                 if viewModel.selectedDayInWeek == 1 {
                     HStack {
                         Text(viewModel.selectedDay)
-                        Spacer()
                         Text(viewModel.selectedHoliday)
                     }
                 }
@@ -37,30 +35,38 @@ struct MonthView: View {
                 if viewModel.selectedDayInWeek == 2 {
                     HStack {
                         Text(viewModel.selectedDay)
-                        Spacer()
                         Text(viewModel.selectedHoliday)
                     }
                 }
             }
             VStack {
                 WeekView(viewModel: viewModel.dayViewModels[3])
+                
                 if viewModel.selectedDayInWeek == 3 {
-                    Text("Selected week")
+                    HStack {
+                        Text(viewModel.selectedDay)
+                        Text(viewModel.selectedHoliday)
+                    }
                 }
             }
             VStack {
                 WeekView(viewModel: viewModel.dayViewModels[4])
                 if viewModel.selectedDayInWeek == 4 {
-                    Text("Selected week")
+                    HStack {
+                        Text(viewModel.selectedDay).padding()
+                        Text(viewModel.selectedHoliday)
+                    }
                 }
             }
             VStack {
                 WeekView(viewModel: viewModel.dayViewModels[5])
                 if viewModel.selectedDayInWeek == 5 {
-                    Text("Selected week")
+                    HStack {
+                        Text(viewModel.selectedDay).padding()
+                        Text(viewModel.selectedHoliday)
+                    }
                 }
             }
-            
         }
     }
 }
