@@ -15,9 +15,10 @@ protocol MonthNavigating {
 protocol MonthViewing: AnyObject, MonthNavigating {
     var current: Int { get }
     var year: Int { get }
-    var startDay: Int { get } // day of week start in month 1 - 7
     var numberOfDaysInMonth: Int { get }
     var yearMonthTitle: String { get }
+    /// day of week start in month 1 - 7
+    var startDay: Int { get }
 }
 
 /**
@@ -40,19 +41,21 @@ class MonthViewModel: ObservableObject, MonthViewing {
         current = monthCalculator.mdyValues.0
         year = monthCalculator.mdyValues.2
         startDay = monthCalculator.startDayOfWeek
-        yearMonthTitle = "\(year)  " + monthName
+        yearMonthTitle = "\(year)  " + monthCalculator.monthName
         dayViewModels = []
         generateDayModels()
     }
     
-    private lazy var dateFormatter = DateFormatter()
     private var service: HolidayWebService?
     private var monthCalculator: MonthCalculating
     private var cancelling: Bool = false
     private var useRetry: Bool = false
-    private var monthName: String {
-        dateFormatter.dateFormat = "LLLL"
-        return dateFormatter.string(from: monthCalculator.date)
+    private var cancellableServiceCalls: [HolidayWebService] = []
+    
+    private func updateNewMonth() {
+        update()
+        newMonthCleanup()
+        serviceCalls()
     }
     
     init(with calc: MonthCalculating? = nil, service: HolidayWebService? = nil, cancelling: Bool = false) {
@@ -61,6 +64,9 @@ class MonthViewModel: ObservableObject, MonthViewing {
         self.cancelling = cancelling
         updateNewMonth()
     }
+}
+
+extension MonthViewModel {
     
     func next() {
         monthCalculator.nextMonth()
@@ -71,14 +77,6 @@ class MonthViewModel: ObservableObject, MonthViewing {
         monthCalculator.previousMonth()
         updateNewMonth()
     }
-    
-    private func updateNewMonth() {
-        update()
-        newMonthCleanup()
-        serviceCalls()
-    }
-    
-    private var cancellableServiceCalls: [HolidayWebService] = []
 }
 
 // service calls
@@ -86,7 +84,6 @@ class MonthViewModel: ObservableObject, MonthViewing {
 private extension MonthViewModel {
     
     func serviceCall(for day: Int, using service: HolidayWebService) {
-        print(#function, day)
         service.fetchHolidays(year: year, month: current, day: day) { [weak self] in
             guard let self = self else { return }
             switch $0 {
@@ -134,7 +131,6 @@ private extension MonthViewModel {
     // Each holiday is mapped to its day
     func helloHolidays(_ holidays: Holidays) {
         let days = allDays
-        
         holidays.forEach { holiday in
             guard let day = days.first(where: { Int($0.dayNumber) == Int(holiday.dateDay) })  else { return }
             DispatchQueue.main.async {

@@ -8,18 +8,23 @@
 import Foundation
 
 protocol MonthCalculating {
-    var date: Date { get }
     var numberOfDaysInMonth: Int { get }
     var startDayOfWeek: Int { get }
     var mdyValues: (Int, Int, Int) { get }
-    
+    var monthName: String { get }
     func previousMonth()
     func nextMonth()
 }
 
 class MonthCalculation: MonthCalculating {
+    
     private(set) var date: Date
-
+    private lazy var dateFormatter = DateFormatter()
+    var monthName: String {
+        dateFormatter.dateFormat = "LLLL"
+        return dateFormatter.string(from: date)
+    }
+    
     func previousMonth() {
         guard let newDate = Calendar.current.date(byAdding: DateComponents(month: -1), to: date) else { return }
         date = newDate
@@ -43,13 +48,13 @@ class MonthCalculation: MonthCalculating {
               let date = Calendar.current.date(from: DateComponents(year: year, month: month, day: 1))  else { return -1 }
         return Calendar.current.component(.weekday, from: date)
     }
-
+    
     /// month day year
     var mdyValues: (Int, Int, Int) {
         let components = Calendar.current.dateComponents([.day, .month, .year], from: date)
         return (components.month ?? 0, components.day ?? 0, components.year ?? 0)
     }
-
+    
     convenience init(m: Int, d: Int, y: Int) {
         let components = DateComponents(year: y, month: m, day: d)
         if let date = Calendar.current.date(from: components) {
@@ -58,7 +63,7 @@ class MonthCalculation: MonthCalculating {
             self.init()
         }
     }
-
+    
     init(with date: Date? = nil) {
         self.date = date ?? Date()
     }

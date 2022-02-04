@@ -105,6 +105,7 @@ extension MonthViewModelTests {
 // MOCKS
 
 class MockMonthCalculator: MonthCalculating {
+    var monthName: String = ""
     
     typealias Completion = () -> ()
     var previousCalled: Completion?
