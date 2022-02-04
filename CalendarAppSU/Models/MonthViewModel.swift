@@ -143,7 +143,7 @@ private extension MonthViewModel {
     func helloHolidays(_ holidays: Holidays) {
         let days = allDays
         
-        for holiday in holidays {
+        holidays.forEach { holiday in
             if let day = days.first(where: { Int($0.dayNumber) == Int(holiday.dateDay) }) {
                 DispatchQueue.main.async {
                     day.holidayText = holiday.name
@@ -153,66 +153,28 @@ private extension MonthViewModel {
     }
     
     func generateDayModels() {
-        var day = 0
+        var day = 1
         let maxDays = numberOfDaysInMonth
-        var days: [DayViewModel]
-        
-        
         
         // Leading week
-        
-        days = []
-        (1...7).forEach {
-            day = $0 == startDay ? (day + 1) : (day + 0) // skipping iteration until startday reached
-            days.append(DayViewModel(day))
-            day = (day > 0) ? (day + 1) : (day + 0) // increment only if greater than 0
-        }
-        let week1 = WeekViewModel(days)
+        let week1 = startDay == 1 ?
+        WeekViewModel((day...day+6).map( { DayViewModel($0) })) :
+        WeekViewModel((1...startDay-1).map( { _ in  DayViewModel(0) }) + (1...8-startDay).map( { DayViewModel($0) }))
+        day = day + 8-startDay
         
         // Middle weeks
+        let week2 = WeekViewModel((day...day+6).map( { DayViewModel($0) }))
+        day = day + 7
+        let week3 = WeekViewModel((day...day+6).map( { DayViewModel($0) }))
+        day = day + 7
+        let week4 = WeekViewModel((day...day+6).map( { DayViewModel($0) }))
+        day = day + 7
         
-        days = []
-        (1...7).forEach { _ in
-            days.append(DayViewModel(day))
-            day = day + 1
-        }
-        let week2 = WeekViewModel(days)
-        
-        days = []
-        (1...7).forEach { _ in
-            days.append(DayViewModel(day))
-            day = day + 1
-        }
-        let week3 = WeekViewModel(days)
-        
-        days = []
-        (1...7).forEach { _ in
-            days.append(DayViewModel(day))
-            day = day + 1
-        }
-        let week4 = WeekViewModel(days)
-        
-        // Trailing week
+        // Trailing weeks use day counter until maxdays then use 0
+        let week5 = WeekViewModel((day...day+7).map( { DayViewModel($0 > maxDays ? 0 : $0) }))
+        day = day + 7
+        let week6 = WeekViewModel((day...day+7).map( { DayViewModel($0 > maxDays ? 0 : $0) }))
 
-        days = []
-        (1...7).forEach { _ in
-            days.append(DayViewModel(day > maxDays ? 0 : day)) // use day counter until maxdays then use 0
-            day = day + 1
-        }
-        let week5 = WeekViewModel(days)
-        
-        days = []
-        (1...7).forEach { _ in
-            days.append(DayViewModel(day > maxDays ? 0 : day)) // use day counter until maxdays then use 0
-            day = day + 1
-        }
-        let week6 = WeekViewModel(days)
-        
-        dayViewModels.append(week1)
-        dayViewModels.append(week2)
-        dayViewModels.append(week3)
-        dayViewModels.append(week4)
-        dayViewModels.append(week5)
-        dayViewModels.append(week6)
+        dayViewModels = [week1, week2, week3, week4, week5, week6 ]
     }
 }
