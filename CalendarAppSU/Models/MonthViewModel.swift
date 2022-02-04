@@ -152,14 +152,17 @@ private extension MonthViewModel {
         // Middle weeks
         let week2 = WeekViewModel((day...day+6).map( { DayViewModel($0) }))
         day = day + 7
+        
         let week3 = WeekViewModel((day...day+6).map( { DayViewModel($0) }))
         day = day + 7
+        
         let week4 = WeekViewModel((day...day+6).map( { DayViewModel($0) }))
         day = day + 7
         
         // Trailing weeks use day counter until maxdays then use 0
         let week5 = WeekViewModel((day...day+7).map( { DayViewModel($0 > maxDays ? 0 : $0) }))
         day = day + 7
+        
         let week6 = WeekViewModel((day...day+7).map( { DayViewModel($0 > maxDays ? 0 : $0) }))
 
         dayViewModels = [week1, week2, week3, week4, week5, week6 ]
