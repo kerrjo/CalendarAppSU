@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 
 protocol MonthNavigating {
     func next()
@@ -86,12 +85,24 @@ class MonthViewModel: ObservableObject, MonthViewing {
     }
     
     private var cancellableServiceCalls: [HolidayWebService] = []
-    private var cancellables = Set<AnyCancellable>()
 }
 
 // service calls
 
 private extension MonthViewModel {
+    
+    func serviceCall(for day: Int, using service: HolidayWebService) {
+        print(#function, day)
+        service.fetchHolidays(year: year, month: current, day: day) { [weak self] in
+            guard let self = self else { return }
+            switch $0 {
+            case .success(let holidays):
+                self.helloHolidays(holidays)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
     
     func serviceCalls() {
         cancelling ?
@@ -111,27 +122,11 @@ private extension MonthViewModel {
         print(#function)
         (1...numberOfDaysInMonth).forEach {
             let service: HolidayWebService = useRetry ? HolidayRetryService() : HolidayService()
-            
             serviceCall(for: $0, using: service)
             cancellableServiceCalls.append(service)
         }
     }
     
-    func serviceCall(for day: Int, using service: HolidayWebService) {
-        print(#function, day)
-        service.fetchHolidays(year: year, month: current, day: day) { [weak self] in
-            guard let self = self else { return }
-            switch $0 {
-            case .success(let holidays):
-                self.helloHolidays(holidays)
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-}
-
-private extension MonthViewModel {
     func newMonthCleanup() {
         for service in cancellableServiceCalls {
             service.cancel()
@@ -160,8 +155,9 @@ private extension MonthViewModel {
     func generateDayModels() {
         var day = 0
         let maxDays = numberOfDaysInMonth
-        
         var days: [DayViewModel]
+        
+        
         
         // Leading week
         
@@ -196,18 +192,18 @@ private extension MonthViewModel {
         }
         let week4 = WeekViewModel(days)
         
+        // Trailing week
+
         days = []
         (1...7).forEach { _ in
-            // use day counter until maxdays then use 0
-            days.append(DayViewModel(day > maxDays ? 0 : day))
+            days.append(DayViewModel(day > maxDays ? 0 : day)) // use day counter until maxdays then use 0
             day = day + 1
         }
         let week5 = WeekViewModel(days)
         
         days = []
         (1...7).forEach { _ in
-            // use day counter until maxdays then use 0
-            days.append(DayViewModel(day > maxDays ? 0 : day))
+            days.append(DayViewModel(day > maxDays ? 0 : day)) // use day counter until maxdays then use 0
             day = day + 1
         }
         let week6 = WeekViewModel(days)

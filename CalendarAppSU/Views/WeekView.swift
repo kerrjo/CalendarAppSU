@@ -10,12 +10,6 @@ import SwiftUI
 struct WeekView: View {
     @ObservedObject var viewModel: WeekViewModel
 
-    var tap: some Gesture {
-        TapGesture(count: 1).onEnded { _ in
-            viewModel.didSelectDetails()
-        }
-    }
-
     var body: some View {
         VStack {
             HStack {
@@ -29,9 +23,16 @@ struct WeekView: View {
             if viewModel.isDetailsRevealed {
                 HStack {
                     Text(viewModel.details.0)
+                        .frame(maxWidth: .infinity)
                     Text(viewModel.details.1)
+                        .frame(maxWidth: .infinity)
                 }
-                .gesture(tap)
+                .padding()
+                .background(Color.orange)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    viewModel.didSelectDetails()
+                }
             }
         }
     }
@@ -48,7 +49,7 @@ struct WeekView_Previews: PreviewProvider {
                 DayViewModel(5),
                 DayViewModel(6),
                 DayViewModel(7),
-            ])
+            ], isDetailsRevealed: true, details: ("8","Eight"))
             ).previewLayout(.sizeThatFits)
         }
     }

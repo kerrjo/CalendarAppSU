@@ -69,11 +69,11 @@ struct CalendarMonthView: View {
             Spacer(minLength: 20)
             
             DayNamesHeaderView()
+            
             MonthView(viewModel: viewModel).frame(maxWidth: .infinity)
         }
     }
 }
-
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
