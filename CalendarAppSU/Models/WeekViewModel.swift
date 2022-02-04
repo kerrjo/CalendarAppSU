@@ -6,11 +6,29 @@
 //
 
 import Foundation
+import Combine
 
 class WeekViewModel: ObservableObject {
     @Published var days: [DayViewModel] = []
-    
+    @Published var isDetailsRevealed: Bool = false
+    @Published var details: (String, String) = ("", "")
+
     init(_ days: [DayViewModel] = []) {
         self.days = days
+        
+        days.forEach { day in
+            day.$daySelected.sink(receiveValue: {
+                guard !$0.isEmpty else { return }
+                self.isDetailsRevealed = true
+                self.details = (day.dayNumber, day.holidayText)
+            }).store(in: &cancellables)
+        }
     }
+    
+    func didSelectDetails() {
+        isDetailsRevealed = false
+        details = ("", "")
+    }
+    
+    private var cancellables = Set<AnyCancellable>()
 }

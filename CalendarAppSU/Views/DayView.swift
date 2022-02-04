@@ -13,7 +13,6 @@ struct DayView: View {
     var tap: some Gesture {
         TapGesture(count: 1)
             .onEnded { _ in
-                print(#function,viewModel.dayNumber)
                 viewModel.didSelect()
             }
     }

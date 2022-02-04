@@ -14,7 +14,6 @@ class DayViewModel: ObservableObject, Identifiable {
     @Published var daySelected: String = ""
     
     func didSelect() {
-        print(#function, dayNumber)
         daySelected = dayNumber
     }
     

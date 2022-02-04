@@ -36,16 +36,8 @@ class MonthViewModel: ObservableObject, MonthViewing {
     @Published var current: Int = 0
     @Published var year: Int = 0
     @Published var dayViewModels: [WeekViewModel] = []
-    @Published var selectedDayInWeek: Int = -1
-    @Published var selectedDay: String = "" {
-        didSet {
-            if selectedDay.isEmpty {
-                selectedDayInWeek = -1
-            }
-        }
-    }
     @Published var selectedHoliday: String = ""
-
+    
     private func update() {
         numberOfDaysInMonth = monthCalculator.numberOfDaysInMonth
         current = monthCalculator.mdyValues.0
@@ -55,7 +47,7 @@ class MonthViewModel: ObservableObject, MonthViewing {
         dayViewModels = []
         generateDayModels()
     }
-
+    
     private lazy var dateFormatter = DateFormatter()
     private var service: HolidayWebService?
     private var monthCalculator: MonthCalculating
@@ -65,7 +57,7 @@ class MonthViewModel: ObservableObject, MonthViewing {
         dateFormatter.dateFormat = "LLLL"
         return dateFormatter.string(from: monthCalculator.date)
     }
-
+    
     init(with calc: MonthCalculating? = nil, service: HolidayWebService? = nil, cancelling: Bool = false) {
         self.monthCalculator = calc ?? MonthCalculation()
         self.service = service ?? HolidayService()
@@ -94,7 +86,6 @@ class MonthViewModel: ObservableObject, MonthViewing {
     }
     
     private var cancellableServiceCalls: [HolidayWebService] = []
-    private var holidays: [HolidayElement] = []
     private var cancellables = Set<AnyCancellable>()
 }
 
@@ -132,29 +123,25 @@ private extension MonthViewModel {
             guard let self = self else { return }
             switch $0 {
             case .success(let holidays):
-                if !holidays.isEmpty {
-                    self.holidays = self.holidays + holidays
-                    self.helloHolidays(holidays)
-                }
+                self.helloHolidays(holidays)
             case .failure(let error):
                 print(error)
             }
         }
     }
+}
 
+private extension MonthViewModel {
     func newMonthCleanup() {
         for service in cancellableServiceCalls {
             service.cancel()
         }
         cancellableServiceCalls = []
-        holidays = []
-        selectedDay = ""
-        selectedHoliday = ""
     }
 }
 
 private extension MonthViewModel {
-
+    
     var allDays: [DayViewModel] { dayViewModels.map({ $0.days }).flatMap({ $0 }) }
     
     // Each holiday is mapped to its day
@@ -170,71 +157,60 @@ private extension MonthViewModel {
         }
     }
     
-    func dayViewModel(for day: Int) -> DayViewModel {
-        let viewModel = DayViewModel(day)
-        
-        viewModel.$daySelected.sink(receiveValue: {
-            print($0, "selected")
-            if let weekIndex = self.daySelected($0) {
-                self.selectedDayInWeek = weekIndex
-            }
-        }).store(in: &cancellables)
-        return viewModel
-    }
-    
-    func daySelected(_ day: String) -> Int? {
-        for (index, week) in dayViewModels.enumerated() {
-            if let day = week.days.first(where: { $0.dayNumber == day }) {
-                selectedDay = day.dayNumber
-                selectedHoliday = day.holidayText
-                return index
-            }
-        }
-        return nil
-    }
-    
-    
     func generateDayModels() {
         var day = 0
         let maxDays = numberOfDaysInMonth
-        let week1 = WeekViewModel()
-        let week2 = WeekViewModel()
-        let week3 = WeekViewModel()
-        let week4 = WeekViewModel()
-        let week5 = WeekViewModel()
-        let week6 = WeekViewModel()
-
+        
+        var days: [DayViewModel]
+        
         // Leading week
-
+        
+        days = []
         (1...7).forEach {
             day = $0 == startDay ? (day + 1) : (day + 0) // skipping iteration until startday reached
-            week1.days.append(dayViewModel(for: day))
+            days.append(DayViewModel(day))
             day = (day > 0) ? (day + 1) : (day + 0) // increment only if greater than 0
         }
+        let week1 = WeekViewModel(days)
+        
         // Middle weeks
+        
+        days = []
         (1...7).forEach { _ in
-            week2.days.append(dayViewModel(for: day))
+            days.append(DayViewModel(day))
             day = day + 1
         }
+        let week2 = WeekViewModel(days)
+        
+        days = []
         (1...7).forEach { _ in
-            week3.days.append(dayViewModel(for: day))
+            days.append(DayViewModel(day))
             day = day + 1
         }
+        let week3 = WeekViewModel(days)
+        
+        days = []
         (1...7).forEach { _ in
-            week4.days.append(dayViewModel(for: day))
+            days.append(DayViewModel(day))
             day = day + 1
         }
-        // Trailing weeks
+        let week4 = WeekViewModel(days)
+        
+        days = []
         (1...7).forEach { _ in
             // use day counter until maxdays then use 0
-            week5.days.append(dayViewModel(for: day > maxDays ? 0 : day))
+            days.append(DayViewModel(day > maxDays ? 0 : day))
             day = day + 1
         }
+        let week5 = WeekViewModel(days)
+        
+        days = []
         (1...7).forEach { _ in
             // use day counter until maxdays then use 0
-            week6.days.append(dayViewModel(for: day > maxDays ? 0 : day))
+            days.append(DayViewModel(day > maxDays ? 0 : day))
             day = day + 1
         }
+        let week6 = WeekViewModel(days)
         
         dayViewModels.append(week1)
         dayViewModels.append(week2)

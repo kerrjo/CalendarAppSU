@@ -9,13 +9,29 @@ import SwiftUI
 
 struct WeekView: View {
     @ObservedObject var viewModel: WeekViewModel
-    
+
+    var tap: some Gesture {
+        TapGesture(count: 1).onEnded { _ in
+            viewModel.didSelectDetails()
+        }
+    }
+
     var body: some View {
-        HStack {
-            ForEach(viewModel.days, id: \.id) { item in
-                DayView(viewModel: item)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .border(Color.red)
+        VStack {
+            HStack {
+                ForEach(viewModel.days, id: \.id) { item in
+                    DayView(viewModel: item)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .border(Color.red)
+                }
+            }
+
+            if viewModel.isDetailsRevealed {
+                HStack {
+                    Text(viewModel.details.0)
+                    Text(viewModel.details.1)
+                }
+                .gesture(tap)
             }
         }
     }
