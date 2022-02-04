@@ -136,10 +136,9 @@ private extension MonthViewModel {
         let days = allDays
         
         holidays.forEach { holiday in
-            if let day = days.first(where: { Int($0.dayNumber) == Int(holiday.dateDay) }) {
-                DispatchQueue.main.async {
-                    day.holidayText = holiday.name
-                }
+            guard let day = days.first(where: { Int($0.dayNumber) == Int(holiday.dateDay) })  else { return }
+            DispatchQueue.main.async {
+                day.holidayText = holiday.name
             }
         }
     }
