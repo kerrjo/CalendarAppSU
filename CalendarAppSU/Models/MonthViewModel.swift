@@ -10,8 +10,6 @@ import Foundation
 protocol MonthNavigating {
     func next()
     func previous()
-    /// currently set month
-    func startMonth()
 }
 
 protocol MonthViewing: AnyObject, MonthNavigating {
@@ -61,10 +59,6 @@ class MonthViewModel: ObservableObject, MonthViewing {
         self.monthCalculator = calc ?? MonthCalculation()
         self.service = service ?? HolidayService()
         self.cancelling = cancelling
-        updateNewMonth()
-    }
-    
-    func startMonth() {
         updateNewMonth()
     }
     
@@ -128,9 +122,7 @@ private extension MonthViewModel {
     }
     
     func newMonthCleanup() {
-        for service in cancellableServiceCalls {
-            service.cancel()
-        }
+        cancellableServiceCalls.forEach { $0.cancel() }
         cancellableServiceCalls = []
     }
 }
@@ -160,7 +152,7 @@ private extension MonthViewModel {
         let week1 = startDay == 1 ?
         WeekViewModel((day...day+6).map( { DayViewModel($0) })) :
         WeekViewModel((1...startDay-1).map( { _ in  DayViewModel(0) }) + (1...8-startDay).map( { DayViewModel($0) }))
-        day = day + 8-startDay
+        day = 9-startDay
         
         // Middle weeks
         let week2 = WeekViewModel((day...day+6).map( { DayViewModel($0) }))

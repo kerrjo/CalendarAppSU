@@ -71,8 +71,7 @@ extension MonthViewModelTests {
             expectation.fulfill()
         }
         
-        let sut = MonthViewModel(with: mockCalc, service: mockService) as MonthViewing
-        sut.startMonth()
+        let _ = MonthViewModel(with: mockCalc, service: mockService) as MonthViewing
         wait(for: [expectation], timeout: 0.2)
     }
     
